@@ -1,6 +1,11 @@
 import * as THREE from 'three';
 import type { PinnedCaptureCamera } from '../scene';
 import {
+  createC63AmgModel,
+  createC63AmgLookDevLights,
+  makeC63AmgBackground,
+} from './c63-amg/createC63AmgModel';
+import {
   createM9DopplerModel,
   createM9DopplerLookDevLights,
   makeM9DopplerBackground,
@@ -204,6 +209,40 @@ const BASE = import.meta.env.BASE_URL;
 const REPO = 'https://github.com/img2threejs/img2threejs-showcase/blob/main';
 
 const authored: DemoEntry[] = [
+  {
+    id: 'c63-amg',
+    title: '2009 Mercedes-Benz C63 AMG',
+    subjectClass: 'object',
+    blurb:
+      "Rebuilt from the owner's own phone photos \u2014 exterior 3/4 and rear angles plus close-up " +
+      'cockpit shots \u2014 rather than a single studio sheet. No straight-on side or front/rear ' +
+      'reference was supplied, so panel curvature is inferred from the 3/4 angles and W204 ' +
+      'proportions, not measured, and this is a hand-authored reconstruction rather than an ' +
+      'automated img2threejs generation run.',
+    referenceImage: `${BASE}references/c63-amg/exterior-rear.jpg`,
+    referenceKind: 'image',
+    sourcePath: 'src/demos/c63-amg/createC63AmgModel.ts',
+    sourceUrl: `${REPO}/src/demos/c63-amg/createC63AmgModel.ts`,
+    generatedWith: 'hand-authored in the img2threejs house style (no automated review loop)',
+    author: 'Hashir (HashirWebX)',
+    authorUrl: 'https://hashirwebx.framer.website',
+    status: 'placeholder',
+    updatedAt: '2026-08-31',
+    cameraPosition: [4.5, 2.2, 5.5],
+    cameraTarget: [0, 0.55, 0],
+    cameraFov: 38,
+    accent: '#c8102e',
+    backgroundGradient: { inner: '#2a2c30', outer: '#101114' },
+    installLights: (scene) => {
+      scene.add(createC63AmgLookDevLights());
+    },
+    build: (scene) => {
+      scene.background = makeC63AmgBackground();
+      const group = createC63AmgModel({ shadows: true });
+      scene.add(group);
+      return group;
+    },
+  },
   {
     id: 'leesin',
     title: 'Lee Sin \u2014 Game Character',
